@@ -167,6 +167,7 @@ header h1 {
 /* QUOTES */
 .quotes {
   max-width: 520px;
+  width: 100%;
   text-align: center;
   padding: 1rem 2rem 3rem;
 }
