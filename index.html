@@ -56,10 +56,40 @@
 
   <!-- Modal -->
   <div class="modal-overlay" id="modalOverlay">
-    <div class="modal-box">
-      <button class="modal-close" id="modalClose">&times;</button>
-      <img src="images/surprise.png" alt="Sorpresa!" id="surpriseImg" />
+
+    <!-- Fase 1: immagine sorpresa -->
+    <div class="modal-phase" id="phaseImage">
+      <div class="taunt-bubble" id="tauntBubble"></div>
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1HtKxgeSa-h1pSK_qcVEDInN-DrdWeBbu9O4HXEy_EA&s=10"
+        alt="Sorpresa!"
+        id="surpriseImg"
+      />
+      <p class="surprise-label">SORPRESAAAA!</p>
     </div>
+
+    <!-- Fase 2: video -->
+    <div class="modal-phase hidden" id="phaseVideo">
+      <div class="video-wrapper">
+        <video id="mainVideo" playsinline>
+          <source src="videos/video.mp4" type="video/mp4" />
+        </video>
+        <div class="floating-taunt" id="floatingTaunt"></div>
+      </div>
+    </div>
+
+    <!-- Fase 3: trofeo -->
+    <div class="modal-phase hidden" id="phaseTrophy">
+      <div class="confetti-container" id="confettiContainer"></div>
+      <div class="trophy-screen">
+        <div class="trophy-emoji" id="trophyEmoji">&#127942;</div>
+        <h2 class="trophy-title">COMPLIMENTI!</h2>
+        <p class="trophy-sub">Siamo ufficialmente retrocessi<br>in <strong>Eccellenza</strong></p>
+        <p class="trophy-detail">Una stagione da incorniciare. Avanti tutta.</p>
+        <button class="trophy-close" id="trophyClose">Chiudi la vergogna</button>
+      </div>
+    </div>
+
   </div>
 
   <script src="script.js"></script>

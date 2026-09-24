@@ -195,7 +195,7 @@ footer {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.92);
   z-index: 100;
   align-items: center;
   justify-content: center;
@@ -205,43 +205,253 @@ footer {
   display: flex;
 }
 
-.modal-box {
+.modal-phase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.modal-phase.hidden {
+  display: none;
+}
+
+/* --- FASE 1: IMMAGINE SORPRESA --- */
+#phaseImage {
+  gap: 1.5rem;
+}
+
+#surpriseImg {
+  width: min(420px, 80vw);
+  border-radius: 16px;
+  animation: slam-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             wobble 0.6s 0.5s ease-in-out;
+  box-shadow: 0 0 60px rgba(240, 192, 64, 0.6), 0 0 120px rgba(240, 192, 64, 0.2);
+  image-rendering: auto;
+}
+
+@keyframes slam-in {
+  from { transform: scale(0.2) rotate(-10deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes wobble {
+  0%   { transform: rotate(0deg); }
+  20%  { transform: rotate(-5deg) scale(1.05); }
+  40%  { transform: rotate(5deg) scale(1.05); }
+  60%  { transform: rotate(-3deg); }
+  80%  { transform: rotate(3deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.surprise-label {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  font-weight: 900;
+  color: #f0c040;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  animation: flash-text 0.5s 0.4s ease both, pulse-text 1s 1s infinite;
+  font-family: sans-serif;
+  text-shadow: 0 0 20px rgba(240, 192, 64, 0.8);
+}
+
+@keyframes flash-text {
+  from { opacity: 0; transform: scale(1.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.taunt-bubble {
+  position: fixed;
+  top: 12%;
+  background: rgba(240, 60, 60, 0.9);
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  max-width: 80vw;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.taunt-bubble.show {
+  opacity: 1;
+}
+
+/* --- FASE 2: VIDEO --- */
+.video-wrapper {
   position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
-  animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: min(860px, 95vw);
+  animation: fade-slide-up 0.5s ease both;
 }
 
-@keyframes pop-in {
-  from { transform: scale(0.5); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
+@keyframes fade-slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.modal-box img {
-  max-width: 100%;
-  max-height: 85vh;
+#mainVideo {
+  width: 100%;
   border-radius: 12px;
   display: block;
+  box-shadow: 0 0 40px rgba(70, 130, 220, 0.4);
 }
 
-.modal-close {
+.floating-taunt {
   position: absolute;
-  top: -14px;
-  right: -14px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #f0c040;
-  color: #0a0f2e;
-  border: none;
-  font-size: 1.3rem;
-  font-weight: bold;
-  cursor: pointer;
-  line-height: 1;
-  z-index: 101;
-  transition: background 0.2s;
+  pointer-events: none;
+  font-family: sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: #f0c040;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: nowrap;
 }
 
-.modal-close:hover {
-  background: #ffffff;
+.floating-taunt.show {
+  opacity: 1;
+  animation: float-up 3s ease forwards;
+}
+
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  15%  { opacity: 1; transform: translateY(-10px) scale(1.1); }
+  80%  { opacity: 1; transform: translateY(-30px) scale(1); }
+  100% { opacity: 0; transform: translateY(-60px) scale(0.9); }
+}
+
+/* --- FASE 3: TROFEO --- */
+#phaseTrophy {
+  background: radial-gradient(ellipse at center, #1a0a2e 0%, #0a0f2e 70%);
+}
+
+.trophy-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+  animation: fade-slide-up 0.6s ease both;
+  position: relative;
+  z-index: 2;
+}
+
+.trophy-emoji {
+  font-size: clamp(5rem, 15vw, 9rem);
+  animation: trophy-bounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+             spin-trophy 1s 0.8s ease-out both;
+  display: block;
+  line-height: 1;
+}
+
+@keyframes trophy-bounce {
+  from { transform: scale(0) translateY(-80px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes spin-trophy {
+  from { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(15deg) scale(1.2); }
+  to   { transform: rotate(0deg) scale(1); }
+}
+
+.trophy-title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  color: #f0c040;
+  letter-spacing: 6px;
+  text-shadow: 0 0 30px rgba(240, 192, 64, 0.8);
+  animation: reveal-text 0.5s 0.6s ease both;
+  font-family: sans-serif;
+}
+
+.trophy-sub {
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: #e8ecff;
+  line-height: 1.5;
+  animation: reveal-text 0.5s 0.9s ease both;
+  font-family: sans-serif;
+}
+
+.trophy-sub strong {
+  color: #f0c040;
+  font-size: 1.3em;
+}
+
+.trophy-detail {
+  font-size: 0.9rem;
+  color: #556688;
+  font-style: italic;
+  animation: reveal-text 0.5s 1.2s ease both;
+  font-family: sans-serif;
+}
+
+@keyframes reveal-text {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.trophy-close {
+  margin-top: 1rem;
+  padding: 12px 28px;
+  background: transparent;
+  border: 2px solid #556;
+  color: #556;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  animation: reveal-text 0.5s 1.5s ease both;
+}
+
+.trophy-close:hover {
+  border-color: #f0c040;
+  color: #f0c040;
+}
+
+/* CONFETTI */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.confetto {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* FADE OUT transition */
+.phase-fadeout {
+  animation: phase-out 0.4s ease forwards !important;
+}
+
+@keyframes phase-out {
+  to { opacity: 0; transform: scale(1.05); }
 }
